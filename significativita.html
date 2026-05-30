@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Significatività — Le Parole dell'Inclusione</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, 'Times New Roman', serif; }
+    button { transition: opacity 0.15s, transform 0.15s; }
+    button:hover { opacity: 0.85; transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    .main-title  { font-size: clamp(26px, 8vw, 44px); font-weight: bold; letter-spacing: 1.5px; margin: 4px 0 14px; color: #1C0A00; }
+    .build-title { font-size: clamp(22px, 6vw, 36px); font-weight: bold; color: #1C0A00; line-height: 1.25; margin: 0 0 28px; }
+    .card        { background: rgba(255,255,255,0.16); border: 1.5px solid rgba(255,255,255,0.36); border-radius: 20px; padding: 28px 30px; }
+    .grid-2col   { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+
+    @media (max-width: 520px) {
+      .card      { padding: 18px 16px; border-radius: 14px; }
+      .grid-2col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+    function TreeSVG() {
+      const sparks = [[82,72],[322,58],[354,194],[56,198],[200,46],[294,118],[106,128],[338,148],[66,148],[180,52],[262,82]];
+      return (
+        <svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg" style={{width:"100%",borderRadius:14,display:"block"}}>
+          <defs>
+            <radialGradient id="svgbg" cx="50%" cy="65%" r="70%">
+              <stop offset="0%" stopColor="#FCD34D"/>
+              <stop offset="100%" stopColor="#C2410C"/>
+            </radialGradient>
+            <radialGradient id="svgglow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#FEF9C3" stopOpacity="0.75"/>
+              <stop offset="100%" stopColor="#FEF9C3" stopOpacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="270" fill="url(#svgbg)"/>
+          <ellipse cx="200" cy="148" rx="88" ry="74" fill="url(#svgglow)"/>
+          <path d="M196 262 L196 178 Q198 165 200 161 Q202 165 204 178 L204 262Z" fill="#431407" opacity="0.82"/>
+          <path d="M196 252 Q170 246 146 255" stroke="#431407" strokeWidth="2.5" fill="none" opacity="0.45"/>
+          <path d="M200 256 Q200 262 185 267" stroke="#431407" strokeWidth="2" fill="none" opacity="0.45"/>
+          <path d="M204 252 Q230 246 254 255" stroke="#431407" strokeWidth="2.5" fill="none" opacity="0.45"/>
+          <path d="M200 161 Q175 145 152 133" stroke="#431407" strokeWidth="4" fill="none" strokeLinecap="round"/>
+          <path d="M200 161 Q225 143 249 131" stroke="#431407" strokeWidth="4" fill="none" strokeLinecap="round"/>
+          <path d="M200 176 Q172 164 150 156" stroke="#431407" strokeWidth="3" fill="none" strokeLinecap="round"/>
+          <path d="M200 176 Q228 164 250 156" stroke="#431407" strokeWidth="3" fill="none" strokeLinecap="round"/>
+          <path d="M200 161 Q198 137 197 117" stroke="#431407" strokeWidth="3.5" fill="none" strokeLinecap="round"/>
+          <ellipse cx="144" cy="126" rx="19" ry="12" fill="#15803D" opacity="0.88" transform="rotate(-28 144 126)"/>
+          <ellipse cx="129" cy="139" rx="14" ry="9" fill="#16A34A" opacity="0.82" transform="rotate(-48 129 139)"/>
+          <ellipse cx="160" cy="116" rx="13" ry="8" fill="#4ADE80" opacity="0.75" transform="rotate(-12 160 116)"/>
+          <ellipse cx="252" cy="123" rx="19" ry="12" fill="#1D4ED8" opacity="0.82" transform="rotate(28 252 123)"/>
+          <ellipse cx="268" cy="136" rx="14" ry="9" fill="#2563EB" opacity="0.78" transform="rotate(48 268 136)"/>
+          <ellipse cx="240" cy="114" rx="12" ry="8" fill="#60A5FA" opacity="0.72" transform="rotate(12 240 114)"/>
+          <ellipse cx="197" cy="101" rx="17" ry="11" fill="#7C3AED" opacity="0.82" transform="rotate(-5 197 101)"/>
+          <ellipse cx="183" cy="91" rx="12" ry="8" fill="#9333EA" opacity="0.75" transform="rotate(-22 183 91)"/>
+          <ellipse cx="214" cy="93" rx="11" ry="7" fill="#C084FC" opacity="0.72" transform="rotate(18 214 93)"/>
+          <ellipse cx="146" cy="153" rx="13" ry="8" fill="#EA580C" opacity="0.8" transform="rotate(-38 146 153)"/>
+          <ellipse cx="254" cy="153" rx="13" ry="8" fill="#F97316" opacity="0.8" transform="rotate(38 254 153)"/>
+          <path d="M115 263 Q200 258 285 263" stroke="#431407" strokeWidth="1.5" fill="none" opacity="0.3"/>
+          <path d="M184 259 Q177 252 170 256 Q166 261 172 265 L184 262Z" fill="#FEF08A" opacity="0.9"/>
+          <path d="M216 259 Q223 252 230 256 Q234 261 228 265 L216 262Z" fill="#92400E" opacity="0.9"/>
+          {sparks.map(([x,y],i) => (
+            <g key={i}>
+              <circle cx={x} cy={y} r="1.8" fill="#FEF9C3" opacity="0.9"/>
+              <line x1={x-5} y1={y} x2={x+5} y2={y} stroke="#FEF9C3" strokeWidth="1" opacity="0.55"/>
+              <line x1={x} y1={y-5} x2={x} y2={y+5} stroke="#FEF9C3" strokeWidth="1" opacity="0.55"/>
+            </g>
+          ))}
+        </svg>
+      );
+    }
+
+    const Q1 = {
+      question: "Cos'è la significatività?",
+      hint: "Scegli la risposta che ti sembra più vicina alla tua idea.",
+      options: [
+        {
+          id: "A",
+          text: "Imparare tante nozioni e saperle ripetere correttamente durante una verifica.",
+          correct: false,
+          feedback: "Quello che descrivi è l'apprendimento meccanico: utile per superare un test, ma destinato a svanire. La significatività va più in profondità: avviene quando ciò che impari si connette alla tua storia, ai tuoi valori, alla tua vita — e cambia qualcosa in te, non solo nelle risposte che dai.",
+        },
+        {
+          id: "B",
+          text: "Imparare qualcosa che si connette alla mia esperienza e mi lascia una traccia duratura.",
+          correct: true,
+          feedback: "Esatto! Secondo Ausubel, si apprende davvero solo quando il nuovo si aggancia a qualcosa che già conosciamo e sentiamo nostro. Un sapere che non tocca nessuno non è conoscenza — è rumore. E un sapere significativo è, per definizione, inclusivo: parte da chi sei.",
+        },
+      ],
+    };
+
+    const Q2 = {
+      intro: "Leggi queste due storie. Quale mostra un apprendimento significativo?",
+      stories: [
+        {
+          id: "A", icon: "📚", title: "Storia A",
+          text: 'La professoressa scrive alla lavagna: "Cap. 12 — La Rivoluzione Francese. Studiate date, cause, nomi. Verifica venerdì." Renzo, che ha difficoltà di lettura, copia con fatica. Venerdì ripete le date. Prende sei. Il lunedì dopo non ricorda quasi niente.',
+        },
+        {
+          id: "B", icon: "✨", title: "Storia B",
+          text: 'La professoressa chiede: "Avete mai vissuto qualcosa di profondamente ingiusto, senza poter fare niente?" Amara risponde: "Mia sorella non poteva iscriversi a scuola senza documenti." La prof: "Nel 1789 milioni di persone si sentivano così." Renzo pensa a suo nonno emigrato. Non dimentica più.',
+        },
+      ],
+      correctId: "B",
+      feedbackCorrect: "Esatto! Nella Storia B la professoressa parte dall'esperienza degli studenti. Renzo — con difficoltà di lettura — riesce a partecipare e ricordare perché il contenuto trova un aggancio nella sua vita. Questo è apprendimento significativo: inclusivo per definizione, perché parla a ciascuno.",
+      feedbackWrong: "La Storia A descrive apprendimento meccanico: date, verifica, dimenticanza. La Storia B invece parte dall'esperienza reale degli studenti — e Renzo, nonostante le sue difficoltà, riesce a ricordare. Quando un contenuto ha senso per te, entra davvero.",
+    };
+
+    const BUILD_STEPS = [
+      {
+        panel: "Scena 1", emoji: "🎭",
+        question: "Chi è il protagonista?",
+        options: [
+          { id: "a", text: "Sofia, 16 anni. A scuola si sente invisibile: ha origini marocchine, parla poco, e nessuno sembra davvero accorgersi di lei.", value: "inc" },
+          { id: "b", text: "Matteo, primo della classe. Studia moltissimo, prende bei voti, ma solo per non deludere i genitori.", value: "mec" },
+        ],
+      },
+      {
+        panel: "Scena 2", emoji: "🏫",
+        question: "Cosa succede in classe?",
+        options: [
+          { id: "a", text: 'Il professore chiede: "Porta un oggetto di casa tua che racconta una storia." Sofia pensa al tajine di ceramica di sua nonna.', value: "inc" },
+          { id: "b", text: "Il professore assegna 15 pagine da studiare. Tutti aprono il libro in silenzio. Chi non capisce non osa chiedere.", value: "mec" },
+        ],
+      },
+      {
+        panel: "Scena 3", emoji: "💬",
+        question: "Il momento chiave:",
+        options: [
+          { id: "a", text: "Sofia legge il suo testo ad alta voce. Parla del tajine, della nonna, del Marocco. La classe ascolta. Per la prima volta sente che il suo mondo vale.", value: "inc" },
+          { id: "b", text: "L'interrogazione va male. Sofia non ricorda le date. Il professore la guarda deluso. Lei abbassa gli occhi.", value: "mec" },
+        ],
+      },
+      {
+        panel: "Scena 4", emoji: "🌱",
+        question: "Come si conclude?",
+        options: [
+          { id: "a", text: "Il professore chiede a tutti di portare un oggetto significativo. La classe diventa un museo di storie vive. Nessuno si sente fuori posto.", value: "inc" },
+          { id: "b", text: "La campanella suona. I ragazzi chiudono i libri. Sofia pensa che la scuola non fa per lei.", value: "mec" },
+        ],
+      },
+    ];
+
+    const POEM = [
+      "Ciò che impari davvero",
+      "non si siede nei libri —",
+      "si siede in te.",
+      "",
+      "Ha il tuo nome,",
+      "porta la tua storia,",
+      "e quando bussa",
+      "sa già come si apre la tua porta.",
+      "",
+      "La significatività è questo:",
+      "il sapere che ti trova.",
+      "",
+      "E l'inclusione è fare in modo",
+      "che quella porta",
+      "esista per tutti.",
+    ];
+
+    function App() {
+      const [phase, setPhase] = useState("intro");
+      const [q1Sel, setQ1Sel] = useState(null);
+      const [q1Done, setQ1Done] = useState(false);
+      const [q2Sel, setQ2Sel] = useState(null);
+      const [q2Done, setQ2Done] = useState(false);
+      const [bStep, setBStep] = useState(0);
+      const [bChoices, setBChoices] = useState([]);
+      const [bSel, setBSel] = useState(null);
+      const [bDone, setBDone] = useState(false);
+
+      const reset = () => {
+        setPhase("intro");
+        setQ1Sel(null); setQ1Done(false);
+        setQ2Sel(null); setQ2Done(false);
+        setBStep(0); setBChoices([]); setBSel(null); setBDone(false);
+      };
+
+      const PAGE = {
+        minHeight: "100vh", minHeight: "100dvh",
+        background: "linear-gradient(150deg, #FBBF24 0%, #F97316 52%, #DC2626 100%)",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        padding: "20px 14px",
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        boxSizing: "border-box",
+      };
+      const INNER = { width: "100%", maxWidth: 660 };
+      const LABEL = {
+        fontSize: 11, letterSpacing: 2.5, opacity: 0.62,
+        textTransform: "uppercase", marginBottom: 10, color: "#1C0A00",
+      };
+      const H2 = { fontSize: "clamp(18px, 4.5vw, 22px)", fontWeight: "bold", margin: "0 0 8px", color: "#1C0A00" };
+      const BODY = { fontSize: "clamp(14px, 3.5vw, 15px)", lineHeight: 1.65, color: "#1C0A00" };
+      const BTN = {
+        background: "#1C0A00", color: "#FFF7ED",
+        border: "none", borderRadius: 12,
+        padding: "13px 28px", fontSize: "clamp(14px, 3.5vw, 15px)",
+        cursor: "pointer", fontFamily: "Georgia, serif",
+        fontWeight: "bold", marginTop: 16, display: "inline-block",
+        WebkitTapHighlightColor: "transparent",
+      };
+      const BTN_GHOST = {
+        background: "rgba(255,255,255,0.22)", color: "#1C0A00",
+        border: "1.5px solid rgba(255,255,255,0.52)", borderRadius: 12,
+        padding: "12px 24px", fontSize: "clamp(13px, 3.2vw, 14px)",
+        cursor: "pointer", fontFamily: "Georgia, serif", marginTop: 14,
+        display: "inline-block", WebkitTapHighlightColor: "transparent",
+      };
+      const OPT = {
+        borderRadius: 14, padding: "15px 18px", marginBottom: 12,
+        cursor: "pointer", lineHeight: 1.55,
+        fontSize: "clamp(13px, 3.5vw, 15px)",
+        border: "2px solid", color: "#1C0A00",
+        WebkitTapHighlightColor: "transparent",
+      };
+
+      const optS = (id, sel, done, correct) => {
+        if (done && id === sel) return { ...OPT,
+          background: correct ? "rgba(21,128,61,0.22)" : "rgba(185,28,28,0.2)",
+          borderColor: correct ? "#15803D" : "#B91C1C", cursor: "default" };
+        if (sel === id && !done) return { ...OPT,
+          background: "rgba(255,255,255,0.42)", borderColor: "rgba(255,255,255,0.92)" };
+        return { ...OPT, background: "rgba(255,255,255,0.12)", borderColor: "rgba(255,255,255,0.3)" };
+      };
+
+      const FBX = (ok) => ({
+        borderRadius: 14, padding: "16px 18px", marginTop: 10,
+        lineHeight: 1.65, fontSize: "clamp(13px, 3.2vw, 14px)", color: "#1C0A00",
+        background: ok ? "rgba(21,128,61,0.22)" : "rgba(185,28,28,0.2)",
+        border: `1.5px solid ${ok ? "#15803D" : "#B91C1C"}`,
+      });
+
+      if (phase === "intro") return (
+        <div style={PAGE}>
+          <div style={{ ...INNER, textAlign: "center" }}>
+            <div className="card">
+              <p style={{ ...LABEL, textAlign: "center" }}>Le Parole dell'Inclusione · Prova Intercorso</p>
+              <h1 className="main-title">SIGNIFICATIVITÀ</h1>
+              <p style={{ ...BODY, opacity: 0.82, marginBottom: 20 }}>
+                Un viaggio interattivo per scoprire cos'è la significatività,
+                come si riconosce — e come si costruisce insieme.
+              </p>
+              <div style={{ fontSize: "clamp(32px, 8vw, 44px)", marginBottom: 16 }}>🌱</div>
+              <p style={{ fontSize: "clamp(11px, 2.8vw, 13px)", opacity: 0.65, color: "#1C0A00", marginBottom: 22, lineHeight: 1.8 }}>
+                ① La Domanda → ② Le Due Storie<br/>→ ③ Costruiamo Insieme → ④ Il Finale
+              </p>
+              <button style={BTN} onClick={() => setPhase("q1")}>Inizia il viaggio →</button>
+            </div>
+          </div>
+        </div>
+      );
+
+      if (phase === "q1") {
+        const sel = Q1.options.find(o => o.id === q1Sel);
+        return (
+          <div style={PAGE}>
+            <div style={INNER}>
+              <p style={LABEL}>Fase 1 di 4 — La Domanda</p>
+              <div className="card">
+                <h2 style={H2}>{Q1.question}</h2>
+                <p style={{ ...BODY, opacity: 0.65, marginBottom: 20 }}>{Q1.hint}</p>
+                {Q1.options.map(opt => (
+                  <div key={opt.id} onClick={() => !q1Done && setQ1Sel(opt.id)}
+                    style={optS(opt.id, q1Sel, q1Done, opt.correct)}>
+                    {opt.text}
+                  </div>
+                ))}
+                {q1Sel && !q1Done && (
+                  <button style={BTN} onClick={() => setQ1Done(true)}>Conferma →</button>
+                )}
+                {q1Done && sel && (
+                  <div style={FBX(sel.correct)}>
+                    <strong>{sel.correct ? "✓ Esatto!" : "✗ Non proprio..."}</strong>
+                    <p style={{ margin: "10px 0 0" }}>{sel.feedback}</p>
+                    {sel.correct
+                      ? <button style={BTN} onClick={() => setPhase("q2")}>Continua →</button>
+                      : <button style={BTN} onClick={() => { setQ1Sel(null); setQ1Done(false); }}>↩ Riprova</button>
+                    }
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      if (phase === "q2") {
+        const ok = q2Sel === Q2.correctId;
+        return (
+          <div style={PAGE}>
+            <div style={INNER}>
+              <p style={LABEL}>Fase 2 di 4 — Le Due Storie</p>
+              <div className="card">
+                <h2 style={{ ...H2, marginBottom: 18 }}>{Q2.intro}</h2>
+                {Q2.stories.map(s => {
+                  let bg = "rgba(255,255,255,0.12)", bc = "rgba(255,255,255,0.3)";
+                  if (q2Sel === s.id && !q2Done) { bg = "rgba(255,255,255,0.4)"; bc = "rgba(255,255,255,0.92)"; }
+                  if (q2Done) {
+                    if (s.id === Q2.correctId) { bg = "rgba(21,128,61,0.22)"; bc = "#15803D"; }
+                    else if (q2Sel === s.id) { bg = "rgba(185,28,28,0.2)"; bc = "#B91C1C"; }
+                  }
+                  return (
+                    <div key={s.id} onClick={() => !q2Done && setQ2Sel(s.id)}
+                      style={{ ...OPT, background: bg, borderColor: bc, cursor: q2Done ? "default" : "pointer" }}>
+                      <div style={{ fontWeight: "bold", marginBottom: 8, fontSize: "clamp(14px, 3.8vw, 16px)" }}>
+                        {s.icon} {s.title}
+                        {q2Done && s.id === Q2.correctId && <span style={{ color: "#15803D", marginLeft: 8 }}>✓</span>}
+                      </div>
+                      <div style={{ fontStyle: "italic", lineHeight: 1.6, fontSize: "clamp(12px, 3.2vw, 14px)" }}>{s.text}</div>
+                    </div>
+                  );
+                })}
+                {q2Sel && !q2Done && (
+                  <button style={BTN} onClick={() => setQ2Done(true)}>Conferma →</button>
+                )}
+                {q2Done && (
+                  <div style={FBX(ok)}>
+                    <strong>{ok ? "✓ Esatto!" : "✗ Rileggi con attenzione..."}</strong>
+                    <p style={{ margin: "10px 0 0" }}>{ok ? Q2.feedbackCorrect : Q2.feedbackWrong}</p>
+                    {ok
+                      ? <button style={BTN} onClick={() => setPhase("buildIntro")}>Continua →</button>
+                      : <button style={BTN} onClick={() => { setQ2Sel(null); setQ2Done(false); }}>↩ Riprova</button>
+                    }
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      if (phase === "buildIntro") return (
+        <div style={PAGE}>
+          <div style={{ ...INNER, textAlign: "center" }}>
+            <div className="card">
+              <p style={{ fontSize: 12, opacity: 0.62, marginBottom: 24, color: "#1C0A00", letterSpacing: 1 }}>
+                FASE 3 DI 4
+              </p>
+              <p style={{ fontSize: "clamp(15px, 4vw, 18px)", opacity: 0.75, color: "#1C0A00", marginBottom: 14, fontStyle: "italic" }}>
+                Adesso tocca a te.
+              </p>
+              <h2 className="build-title">
+                Costruisci tu<br/>una storia significativa!
+              </h2>
+              <p style={{ ...BODY, opacity: 0.78, marginBottom: 28 }}>
+                Scegli come si sviluppa ogni scena.<br/>
+                Alla fine vedrai la storia che hai costruito.
+              </p>
+              <div style={{ fontSize: "clamp(32px, 8vw, 40px)", marginBottom: 24 }}>✏️</div>
+              <button style={BTN} onClick={() => setPhase("build")}>Partiamo →</button>
+            </div>
+          </div>
+        </div>
+      );
+
+      if (phase === "build") {
+        if (bDone) {
+          const n = bChoices.filter(c => c === "inc").length;
+          const panels = BUILD_STEPS.map((s, i) => s.options.find(o => o.value === bChoices[i]).text);
+          const RES = n === 4
+            ? { icon: "🌟", title: "Una storia pienamente significativa!", msg: "Ogni tua scelta ha aperto spazi di senso e inclusione. Ogni personaggio ha trovato posto, ogni voce è stata ascoltata." }
+            : n >= 2
+            ? { icon: "🌱", title: "Una storia in divenire...", msg: "Alcune scelte aprono significato, altre lo chiudono. È l'immagine di molte aule reali — e di quanto ancora si può costruire insieme." }
+            : { icon: "💭", title: "Una storia che cerca ancora il senso", msg: "Il sapere fatica a connettersi con le persone. La domanda rimane aperta: cosa potrebbe cambiare?" };
+          return (
+            <div style={PAGE}>
+              <div style={INNER}>
+                <p style={LABEL}>Fase 3 di 4 — La Tua Storia</p>
+                <div className="card">
+                  <h2 style={{ ...H2, marginBottom: 6 }}>{RES.icon} {RES.title}</h2>
+                  <p style={{ ...BODY, opacity: 0.8, marginBottom: 20 }}>{RES.msg}</p>
+                  <div className="grid-2col">
+                    {BUILD_STEPS.map((s, i) => (
+                      <div key={i} style={{
+                        background: "rgba(255,255,255,0.2)",
+                        border: "1.5px solid rgba(255,255,255,0.38)",
+                        borderRadius: 14, padding: "13px 15px",
+                      }}>
+                        <div style={{ fontWeight: "bold", fontSize: "clamp(11px, 2.8vw, 13px)", marginBottom: 6, opacity: 0.75, color: "#1C0A00" }}>
+                          {s.emoji} {s.panel}
+                        </div>
+                        <div style={{ fontSize: "clamp(11px, 3vw, 13px)", lineHeight: 1.5, fontStyle: "italic", color: "#1C0A00" }}>
+                          {panels[i]}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button style={BTN} onClick={() => setPhase("finale")}>Verso il finale →</button>
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+        const step = BUILD_STEPS[bStep];
+        const isLast = bStep === BUILD_STEPS.length - 1;
+        return (
+          <div style={PAGE}>
+            <div style={INNER}>
+              <p style={LABEL}>Fase 3 di 4 — Costruiamo insieme · {bStep + 1}/{BUILD_STEPS.length}</p>
+              <div className="card">
+                <p style={{ fontSize: "clamp(11px, 2.8vw, 13px)", opacity: 0.62, marginBottom: 4, color: "#1C0A00" }}>
+                  Costruisci una storia significativa — una scena alla volta
+                </p>
+                <h2 style={{ ...H2, marginBottom: 4 }}>{step.emoji} {step.panel}</h2>
+                <p style={{ fontWeight: "bold", fontSize: "clamp(14px, 3.8vw, 16px)", marginBottom: 18, color: "#1C0A00" }}>
+                  {step.question}
+                </p>
+                {step.options.map(opt => {
+                  const isSel = bSel === opt.id;
+                  return (
+                    <div key={opt.id} onClick={() => setBSel(opt.id)}
+                      style={{
+                        ...OPT,
+                        background: isSel ? "rgba(255,255,255,0.42)" : "rgba(255,255,255,0.12)",
+                        borderColor: isSel ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.3)",
+                      }}>
+                      {opt.text}
+                    </div>
+                  );
+                })}
+                {bSel && (
+                  <button style={BTN} onClick={() => {
+                    const val = step.options.find(o => o.id === bSel).value;
+                    const nc = [...bChoices, val];
+                    setBChoices(nc);
+                    setBSel(null);
+                    if (isLast) setBDone(true);
+                    else setBStep(bStep + 1);
+                  }}>
+                    {isLast ? "Vedi la storia →" : "Prossima scena →"}
+                  </button>
+                )}
+              </div>
+              <div style={{ display: "flex", justifyContent: "center", gap: 8, marginTop: 16 }}>
+                {BUILD_STEPS.map((_, i) => (
+                  <div key={i} style={{
+                    width: 10, height: 10, borderRadius: "50%",
+                    background: i <= bStep ? "#1C0A00" : "rgba(255,255,255,0.4)",
+                  }}/>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      if (phase === "finale") return (
+        <div style={PAGE}>
+          <div style={INNER}>
+            <p style={LABEL}>Fase 4 di 4 — Il Finale</p>
+            <div className="card">
+              <h2 style={{ ...H2, textAlign: "center", marginBottom: 18 }}>🌳 Un'immagine per ricordare</h2>
+              <TreeSVG/>
+              <p style={{
+                textAlign: "center", fontStyle: "italic",
+                fontSize: "clamp(12px, 3vw, 13px)", opacity: 0.78,
+                margin: "14px 0 22px", lineHeight: 1.65, color: "#1C0A00",
+              }}>
+                Un'aula è significativa quando ogni storia che entra trova posto.<br/>
+                Non nonostante le differenze — grazie a esse.
+              </p>
+              <div style={{ borderLeft: "3px solid rgba(255,255,255,0.6)", paddingLeft: 18, marginBottom: 24 }}>
+                {POEM.map((line, i) => (
+                  <p key={i} style={{
+                    margin: line === "" ? "8px 0" : "2px 0",
+                    fontSize: "clamp(13px, 3.2vw, 15px)",
+                    fontStyle: "italic", lineHeight: 1.75, color: "#1C0A00",
+                  }}>
+                    {line || "\u00A0"}
+                  </p>
+                ))}
+              </div>
+              <button style={BTN_GHOST} onClick={reset}>↺ Ricomincia dall'inizio</button>
+            </div>
+          </div>
+        </div>
+      );
+
+      return null;
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App/>);
+  </script>
+</body>
+</html>
